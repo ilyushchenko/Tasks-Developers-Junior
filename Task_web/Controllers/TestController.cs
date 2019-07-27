@@ -21,11 +21,13 @@ namespace Task_web.Controllers
         /// <summary>
         /// Возвращает коллекцию моделей
         /// </summary>
+        /// <param name="count">Количество результатов выдачи</param>
+        /// <param name="skip">Пропуск результатов выдачи</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<TestModel[]> GetAll()
+        public ActionResult<TestModel[]> GetAll(int count = 100, int skip = 0)
         {
-            return _testModels.ToArray();
+            return _testModels.Skip(skip).Take(count).ToArray();
         }
 
         /// <summary>
