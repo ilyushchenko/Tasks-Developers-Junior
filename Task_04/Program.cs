@@ -22,5 +22,13 @@ namespace Task_04
                 Thread.Sleep(1000);
             }
         }
+
+        private static IEnumerable<DateTime> AlarmClockTimer(DateTime wakeUp)
+        {
+            while (wakeUp > DateTime.Now)
+            {
+                yield return DateTime.Now;
+            }
+        }
     }
 }
