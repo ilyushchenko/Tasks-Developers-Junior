@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TaskThree
 {
@@ -18,28 +19,40 @@ namespace TaskThree
         
     }
 
+    public delegate void CrudAction(ActionType type);
+
     class Program
     {
         static void Main(string[] args)
         {
+            // 1 вариант
+            // Выбираем необходимый метод по типу (предположим, что они выполняют разные действия)
+            // Выполняем
+            var dictinaryActions = new Dictionary<ActionType, CrudAction>
+            {
+                { ActionType.Create, CreateMethod },
+                { ActionType.Read, ReadMethod },
+                { ActionType.Update, UpdateMethod },
+                { ActionType.Delete, DeleteMethod }
+            };
+
             var type = ActionType.Read;
 
-            switch (type)
+            dictinaryActions[type].Invoke(type);
+
+            // Вариант 2
+            // Выбираем необходимую реализацию
+            var interfaceActions = new List<ICrudAction>()
             {
-                case ActionType.Create:
-                    CreateMethod(type);
-                    break;
-                case ActionType.Read:
-                    ReadMethod(type);
-                    break;
-                case ActionType.Update:
-                    UpdateMethod(type);
-                    break;
-                case ActionType.Delete:
-                    DeleteMethod(type);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                new CreateAction(),
+                new ReadAction(),
+                new UpdateAction(),
+                new DeleteAction(),
+            };
+
+            foreach (var action in interfaceActions)
+            {
+                action.Execute();
             }
         }
 
