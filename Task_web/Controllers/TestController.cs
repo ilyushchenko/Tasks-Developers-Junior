@@ -50,6 +50,12 @@ namespace Task_web.Controllers
         [HttpPost]
         public ActionResult<TestModel> Create([FromBody]TestModel model)
         {
+            if (model == null)
+            {
+                ModelState.AddModelError("emptyModel", "Необходимо указать данные");
+                return BadRequest(ModelState);
+            }
+
             ValidateModel(model);
 
             if (!ModelState.IsValid)
@@ -69,6 +75,11 @@ namespace Task_web.Controllers
         [HttpPut("{id:Guid}")]
         public ActionResult<TestModel> Update(Guid id, [FromBody]TestModel model)
         {
+            if (model == null)
+            {
+                ModelState.AddModelError("emptyModel", "Необходимо указать данные");
+                return BadRequest(ModelState);
+            }
             if (model.Id != id)
             {
                 ModelState.AddModelError("invalidId", "Указан неправильный идентификатор");
